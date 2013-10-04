@@ -4,5 +4,7 @@
     <string name="app_name">InfoTravel</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="boton_nuevo">Nuevo</string>
+    <string name="title_activity_travel">TravelActivity</string>
 
 </resources>

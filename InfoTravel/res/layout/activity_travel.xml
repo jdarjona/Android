@@ -8,16 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/button1" >
+        android:layout_below="@+id/btoCreate" >
 
     </ListView>
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btoCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Button" />
+        android:text="@string/boton_nuevo" />
 
 </RelativeLayout>
