@@ -6,5 +6,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="boton_nuevo">Nuevo</string>
     <string name="title_activity_travel">TravelActivity</string>
+    <string name="title_activity_edit">EditActivity</string>
+    <string name="city">Ciudad</string>
+    <string name="country">Pais</string>
+    <string name="year">Año</string>
+    <string name="nota">nota</string>
+    <string name="botonGuardar">Guardar</string>
 
 </resources>
