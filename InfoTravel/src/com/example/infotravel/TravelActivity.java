@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,6 +25,9 @@ public class TravelActivity extends Activity {
 
 	
 	ArrayList<Travel> values = new ArrayList<Travel>();
+	TravelAdapter adapter;
+	
+	
 	private class TravelAdapter extends ArrayAdapter<Travel>
 	{
 		private Context context;
@@ -82,18 +86,15 @@ public class TravelActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_travel);
 		
-		
-		
 		 values = getData();
 		 
-		 final TravelAdapter adapter = new TravelAdapter(this,
+		 adapter = new TravelAdapter(this,
 			        values);
 		 final ListView listview = (ListView) findViewById(R.id.listView1);
 		 
+		 adapter.notifyDataSetChanged();
 		 listview.setAdapter(adapter);
 
-		
-		
 	}
 	public void lanzar(View view) {
         Intent i = new Intent(this, EditActivity.class);
@@ -107,17 +108,33 @@ public class TravelActivity extends Activity {
 		return true;
 	}
 	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item){
+		
+		switch(item.getItemId()){
+		
+		case R.id.menu_new_travel:
+			Intent intent= new Intent(this,com.example.infotravel.EditActivity.class);
+			startActivityForResult(intent,1);
+			break;
+		
+		}
+		
+		return super.onMenuItemSelected(featureId, item);
+	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    // TODO Auto-generated method stub
 	    if  (resultCode == RESULT_OK){
-	    	Travel travel =getIntent().getParcelableExtra("travel");
-	    	
-			if(travel!=null)
+	    	Travel travel =(Travel)data.getParcelableExtra("travel");	    	
+			if(travel!=null){
 				this.values.add(travel);
+				adapter.notifyDataSetChanged();
+			}
 	    }
 	}
+	
 	 private ArrayList<Travel> getData(){
 	    	ArrayList<Travel> travels = new ArrayList<Travel>();
 
@@ -135,6 +152,5 @@ public class TravelActivity extends Activity {
 	        
 	        return travels;
 	    }
-
-	 
+ 
 }

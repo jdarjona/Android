@@ -34,6 +34,11 @@
         <activity
             android:name="com.example.infotravel.EditActivity"
             android:label="@string/title_activity_edit" >
+            
+            <intent-filter> 
+             	<action android:name="@string/action_nuevo"/> 
+             	<category android:name="android.intent.category.DEFAULT" />  
+             </intent-filter>
         </activity>
     </application>
 

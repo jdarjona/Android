@@ -1,5 +1,7 @@
 package com.example.infotravel;
 
+import java.io.Serializable;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -45,8 +47,7 @@ public class EditActivity extends Activity {
 		//Travel travel= new Travel() ;
 		
         Intent i = new Intent(this, TravelActivity.class);
-      
-        
+             
         i.putExtra("travel", travel);
         //startActivity(i);
         setResult(RESULT_OK, i);

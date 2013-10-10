@@ -12,5 +12,7 @@
     <string name="year">Año</string>
     <string name="nota">nota</string>
     <string name="botonGuardar">Guardar</string>
+    <string name="menu_new_travel">Nuevo viaje</string>
+    <string name="action_nuevo">com.example.EditActivity.Nuevo</string>
 
 </resources>
