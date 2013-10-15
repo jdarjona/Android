@@ -14,5 +14,7 @@
     <string name="botonGuardar">Guardar</string>
     <string name="menu_new_travel">Nuevo viaje</string>
     <string name="action_nuevo">com.example.EditActivity.Nuevo</string>
+    <string name="share">Compartir</string>
+    <string name="button_foto">Foto</string>
 
 </resources>

@@ -1,10 +1,14 @@
 package com.example.infotravel;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,12 +19,13 @@ import com.example.infotravel.Travel;
 
 public class EditActivity extends Activity {
 
-	EditText city;
-	EditText country;
-	EditText year;
-	EditText note;
-	Travel travel ;
-	int position;
+	public static final int REQUEST_CODE_ATTACH_IMAGE = 10;
+	private EditText city;
+	private EditText country;
+	private EditText year;
+	private EditText note;
+	private Travel travel ;
+	private int position;
 	//Travel antTravel;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,29 @@ public class EditActivity extends Activity {
 	}
 
 	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item){
+		
+		switch(item.getItemId()){
+		
+		case R.id.share:
+			Intent intent= new Intent(Intent.ACTION_SEND);
+			String texto="Datos viaje Ciudad: " + travel.getCity() 
+						+"Pais: " + travel.getCountry() +" Año: " + Integer.toString(travel.getYear());
+			intent.putExtra(Intent.EXTRA_TEXT, texto);
+			intent.setType("text/plain");
+			PackageManager pm = getPackageManager();
+			if(pm.resolveActivity(intent, 0)!=null)
+			{
+				startActivity(intent);
+			}else Log.d("InfoTravel","No hay ningún activity capaz de resolver el Intent");
+			
+			break;
+		
+		}
+		
+		return super.onMenuItemSelected(featureId, item);
+	}
+	@Override
 	public boolean onTouchEvent(MotionEvent me) {
 		
 		int action =me.getAction();
@@ -108,5 +136,40 @@ public class EditActivity extends Activity {
         //startActivity(i);
         setResult(RESULT_OK, i);
         finish();
-  }
+	}
+	
+	public void GuardarImagen(View view)
+	{
+		Intent intent= new Intent (Intent.ACTION_GET_CONTENT);
+		intent.setType("image/*");
+		Intent chooserIntent=Intent.createChooser(intent,null);
+		
+		startActivityForResult(chooserIntent,REQUEST_CODE_ATTACH_IMAGE);
+		
+	}
+	@Override
+	protected void onActivityResult(int requestCode,int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode==RESULT_OK)
+		{
+			Uri uri=null;
+			
+			switch(requestCode){
+				
+			case REQUEST_CODE_ATTACH_IMAGE:
+				
+				uri=data.getData();
+				travel.setImage(uri.toString());
+				break;
+			default:
+				throw new IllegalStateException("Invalid request code");
+			}
+			
+			
+		}
+		
+		
+	}
 }

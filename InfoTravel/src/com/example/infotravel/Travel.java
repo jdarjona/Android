@@ -1,5 +1,6 @@
 package com.example.infotravel;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,7 +12,7 @@ public class Travel implements Parcelable{
 	private String country;
 	private int year;
 	private String note;
-	
+	private String image;
 	
 	public String getCity() {
 		return city;
@@ -47,6 +48,7 @@ public class Travel implements Parcelable{
 		this.country=in.readString();
 		this.year=in.readInt();
 		this.note=in.readString();
+		this.image=in.readString();
 		
   }
 
@@ -82,7 +84,14 @@ public class Travel implements Parcelable{
         
     }
       
-    public static final Travel.Creator<Travel> CREATOR = new Travel.Creator<Travel>() {
+    public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public static final Travel.Creator<Travel> CREATOR = new Travel.Creator<Travel>() {
         public Travel createFromParcel(Parcel in) {
             return new Travel(in);
         }
