@@ -1,6 +1,5 @@
 package com.example.infotravel;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,9 +7,10 @@ import android.os.Parcelable;
 
 public class Travel implements Parcelable{ 
 
+	private Integer idTravel;
 	private String city;
 	private String country;
-	private int year;
+	private Integer year;
 	private String note;
 	private String image;
 	
@@ -26,7 +26,7 @@ public class Travel implements Parcelable{
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 	public void setYear(int year) {
@@ -44,17 +44,20 @@ public class Travel implements Parcelable{
 			
 	}
 	private Travel(Parcel in){
+		this.idTravel=(Integer)in.readValue(null);
 		this.city=in.readString();
 		this.country=in.readString();
-		this.year=in.readInt();
+		this.year=(Integer)in.readValue(null);//in.readInt();
 		this.note=in.readString();
 		this.image=in.readString();
+		
 		
   }
 
 	
-	public Travel(String city, String country, int year)
+	public Travel(Integer idTravel,String city, String country, Integer year)
 	{
+		this.idTravel=idTravel;
 		this.city=city;
 		this.country=country;
 		this.year=year;
@@ -62,9 +65,9 @@ public class Travel implements Parcelable{
 			
 	}
 	
-	public Travel(String city,String country, int year, String note)
+	public Travel(Integer idTravel,String city,String country, Integer year, String note)
 	{
-		this(city,country,year);
+		this(idTravel,city,country,year);
 		
 		this.note=note;
 		
@@ -77,10 +80,12 @@ public class Travel implements Parcelable{
   
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+    	 dest.writeValue(this.idTravel);
     	 dest.writeString(this.city);
     	 dest.writeString(this.country);
-    	 dest.writeInt(this.year);
+    	 dest.writeValue(this.year);
     	 dest.writeString(this.note);
+    	 dest.writeString(this.image);
         
     }
       
@@ -89,6 +94,13 @@ public class Travel implements Parcelable{
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Integer getIdTravel() {
+		return idTravel;
+	}
+	public void setIdTravel(Integer idTravel) {
+		this.idTravel = idTravel;
 	}
 
 	public static final Travel.Creator<Travel> CREATOR = new Travel.Creator<Travel>() {

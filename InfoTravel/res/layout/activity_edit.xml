@@ -9,12 +9,23 @@
     tools:context=".EditActivity" >
 
     <EditText
+        android:id="@+id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="@string/city" >
+ 		<requestFocus />
+       
+    </EditText>
+
+    <EditText
         android:id="@+id/pais"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/city"
         android:layout_below="@+id/city"
-        android:layout_marginTop="18dp"
         android:ems="10"
         android:hint="@string/country" />
 
@@ -24,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/pais"
         android:layout_below="@+id/pais"
-        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/nota"
         android:inputType="textMultiLine" />
@@ -35,40 +45,20 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/nota"
         android:layout_below="@+id/nota"
-        android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="@string/year"
         android:inputType="number" />
 
-    <EditText
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="@string/city" />
-
-    <Button
-        android:id="@+id/button1"
+    <ImageView
+        android:id="@+id/imgViaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/year"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28dp"
-        android:onClick="Guardar"
-        android:text="@string/botonGuardar" />
-
-    <Button
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
         android:layout_alignRight="@+id/year"
-        android:text="@string/button_foto" 
-        android:onClick="GuardarImagen"/>
-
-    
+        android:layout_below="@+id/year"
+        android:contentDescription="@string/imgViaje"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_camera" />
 
 </RelativeLayout>

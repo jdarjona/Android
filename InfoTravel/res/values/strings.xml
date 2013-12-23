@@ -16,5 +16,12 @@
     <string name="action_nuevo">com.example.EditActivity.Nuevo</string>
     <string name="share">Compartir</string>
     <string name="button_foto">Foto</string>
-
+    <string name="imgViaje">Imagen Viaje</string>
+    <string name="menu_edit_travel">Editar</string>
+    <string name="menu_delete_travel">Borrar</string>
+    <string name="title_actionbar_list">List Travel</string>
+	<string name="menu_guardar">Guardar</string>
+	<string name="menu_guardar_imagen">Guardar Foto</string>
+	<string name="title_nuevo_viaje">Nuevo viaje</string>
+	<string name="title_editar_viaje">Modificar viaje</string>
 </resources>

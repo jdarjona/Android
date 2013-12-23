@@ -2,6 +2,7 @@ package com.example.infotravel;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.infotravel.Travel;
 
@@ -26,7 +28,9 @@ public class EditActivity extends Activity {
 	private EditText note;
 	private Travel travel ;
 	private int position;
-	//Travel antTravel;
+	private ImageView imgViaje;
+	private Uri uri;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,11 +40,17 @@ public class EditActivity extends Activity {
 		country=(EditText) findViewById(R.id.pais);
 		year=(EditText) findViewById(R.id.year);
 		note=(EditText) findViewById(R.id.nota);
+		imgViaje=(ImageView) findViewById(R.id.imgViaje);
 		
 		Intent i =this.getIntent();
-		//antTravel=(Travel)i.getParcelableExtra("travel");
 		travel=(Travel)i.getParcelableExtra("travel");
 		position=i.getIntExtra("position", -1);
+		
+		
+		//Action Bar
+		ActionBar actionbar=getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		
 		
 	}
 
@@ -48,7 +58,7 @@ public class EditActivity extends Activity {
 	protected void onStart()
 	{
 		super.onStart();
-		
+		ActionBar actionbar=getActionBar();
 		if (travel!=null)
 		{
 			if(travel.getCity()!=null)
@@ -58,7 +68,15 @@ public class EditActivity extends Activity {
 			year.setText(Integer.toString(travel.getYear()));
 			if(travel.getNote()!=null)
 				note.setText(travel.getNote().toString());
-		}
+			if(travel.getImage()!=null)
+			{
+				uri=Uri.parse(travel.getImage());
+				imgViaje.setImageURI(uri);
+				
+			}
+			actionbar.setTitle(R.string.title_editar_viaje);
+		}else
+			actionbar.setTitle(R.string.title_nuevo_viaje);
 		
 	}
 	
@@ -71,6 +89,8 @@ public class EditActivity extends Activity {
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item){
+		
+		int id=item.getItemId();
 		
 		switch(item.getItemId()){
 		
@@ -87,7 +107,22 @@ public class EditActivity extends Activity {
 			}else Log.d("InfoTravel","No hay ningún activity capaz de resolver el Intent");
 			
 			break;
+			
+		case R.id.menu_save:
+			Guardar(null);
+			
+			break;
+		case R.id.menu_save_image:
+			GuardarImagen(null);
+			break;
+			
+		/*case R.string.title_nuevo_viaje|R.string.title_actionbar_list:
+			setResult(RESULT_CANCELED, null);
+	        finish();
+			break;*/
+			
 		
+			
 		}
 		
 		return super.onMenuItemSelected(featureId, item);
@@ -109,7 +144,7 @@ public class EditActivity extends Activity {
 			city.clearFocus();
 		}
 		
-		
+	
 		
 		return true;
 	}
@@ -118,24 +153,45 @@ public class EditActivity extends Activity {
 		
 		//int auxYear=Integer.parseInt(year.getText().toString());
 		Intent i = new Intent(this, TravelActivity.class);
-		
-		if (travel==null)
+		Integer years=null;
+		try
 		{
-			travel =new Travel(city.getText().toString(),country.getText().toString(), Integer.parseInt(year.getText().toString()) , note.getText().toString());
-		}else
+			years=Integer.parseInt(year.getText().toString());
+		}catch(Exception ex)
 		{
-			//i.putExtra("antTravel", antTravel);
-			travel.setCity(city.getText().toString());
-			travel.setCountry(country.getText().toString());
-			travel.setNote(note.getText().toString());
-			travel.setYear(Integer.parseInt(year.getText().toString()));
+			Toast.makeText(year.getContext(), ex.toString(), Toast.LENGTH_LONG).show();
 		}
 		
-        i.putExtra("travel", travel);
-        i.putExtra("position",position);
-        //startActivity(i);
-        setResult(RESULT_OK, i);
-        finish();
+		if ((city.getText().toString()!=null) && (!city.getText().toString().equals("")))
+		{
+			if (travel==null)
+			{
+			
+				travel =new Travel(-1,city.getText().toString(),country.getText().toString(),years, note.getText().toString());
+				if (uri!=null)
+				{
+					travel.setImage(uri.toString());
+				}
+			
+			}else
+			{
+				//i.putExtra("antTravel", antTravel);
+				travel.setCity(city.getText().toString());
+				travel.setCountry(country.getText().toString());
+				travel.setNote(note.getText().toString());
+				travel.setYear(years);
+			}
+			i.putExtra("travel", travel);
+	        i.putExtra("position",position);
+	        //startActivity(i);
+	        setResult(RESULT_OK, i);
+	        finish();
+			
+		}else
+		{
+			Toast.makeText(this.city.getContext(),"Al menos debe introducir el nombre de la ciudad", Toast.LENGTH_LONG).show();
+		}
+        
 	}
 	
 	public void GuardarImagen(View view)
@@ -154,14 +210,19 @@ public class EditActivity extends Activity {
 		
 		if (resultCode==RESULT_OK)
 		{
-			Uri uri=null;
+			uri=null;
 			
 			switch(requestCode){
 				
 			case REQUEST_CODE_ATTACH_IMAGE:
 				
 				uri=data.getData();
-				travel.setImage(uri.toString());
+				if (travel!=null){
+					travel.setImage(uri.toString());
+				}else
+				{
+					imgViaje.setImageURI(uri);
+				}
 				break;
 			default:
 				throw new IllegalStateException("Invalid request code");
