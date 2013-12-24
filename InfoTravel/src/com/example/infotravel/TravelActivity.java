@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
@@ -86,10 +89,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			holder.text1.setText(country);
 			holder.text2.setText(city);
 		}
-		
-		
-		 
-		
+	
 	}
 	
 	private class TravelAdapter extends ArrayAdapter<Travel>
@@ -158,6 +158,8 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		
 		ActionBar actionbar=getActionBar();
 		actionbar.setTitle(R.string.title_actionbar_list);
+		
+		
 		
 	}
 	
@@ -384,6 +386,8 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	        
 	        return travels;
 	    }*/
+
+	
 
 
 	

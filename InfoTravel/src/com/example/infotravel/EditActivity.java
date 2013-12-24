@@ -9,17 +9,19 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.infotravel.Travel;
 
-public class EditActivity extends Activity {
+public class EditActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 
 	public static final int REQUEST_CODE_ATTACH_IMAGE = 10;
 	private EditText city;
@@ -51,6 +53,9 @@ public class EditActivity extends Activity {
 		ActionBar actionbar=getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		
+		getWindow().
+		  getDecorView().
+		  setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION); 
 		
 	}
 
@@ -94,6 +99,9 @@ public class EditActivity extends Activity {
 		
 		switch(item.getItemId()){
 		
+		case R.id.menushare:
+			showPopup(findViewById(R.id.menushare));
+			break;
 		case R.id.share:
 			Intent intent= new Intent(Intent.ACTION_SEND);
 			String texto="Datos viaje Ciudad: " + travel.getCity() 
@@ -127,6 +135,39 @@ public class EditActivity extends Activity {
 		
 		return super.onMenuItemSelected(featureId, item);
 	}
+	
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		// TODO Auto-generated method stub
+		
+			switch(item.getItemId()){
+		
+				case R.id.share:
+					Intent intent= new Intent(Intent.ACTION_SEND);
+					String texto="Datos viaje Ciudad: " + travel.getCity() 
+						+"Pais: " + travel.getCountry() +" Año: " + Integer.toString(travel.getYear());
+					intent.putExtra(Intent.EXTRA_TEXT, texto);
+					intent.setType("text/plain");
+					PackageManager pm = getPackageManager();
+					if(pm.resolveActivity(intent, 0)!=null)
+					{
+						startActivity(intent);
+					}else Log.d("InfoTravel","No hay ningún activity capaz de resolver el Intent");
+			
+					break;
+					
+				case R.id.menu_save_image:
+					GuardarImagen(null);
+					break;
+			
+			}
+		
+		
+		return false;
+	}
+	
+	
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
 		
@@ -148,7 +189,14 @@ public class EditActivity extends Activity {
 		
 		return true;
 	}
-	
+	public void showPopup(View v) {
+		   
+		PopupMenu popup = new PopupMenu(this, v);
+	    MenuInflater inflater = popup.getMenuInflater();
+	    inflater.inflate(R.menu.actions, popup.getMenu());
+	    popup.setOnMenuItemClickListener(this);
+	    popup.show();
+	}
 	public void Guardar(View view) {
 		
 		//int auxYear=Integer.parseInt(year.getText().toString());
@@ -233,4 +281,6 @@ public class EditActivity extends Activity {
 		
 		
 	}
+
+	
 }

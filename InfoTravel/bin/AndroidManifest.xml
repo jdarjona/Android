@@ -12,13 +12,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.infotravel.TravelActivity"
-            android:label="@string/title_activity_travel" 
-           >
-       		 
+            android:label="@string/title_activity_travel" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,21 +33,35 @@
         </activity>
         <activity
             android:name="com.example.infotravel.EditActivity"
-            android:label="@string/title_activity_edit" 
-             android:parentActivityName="com.example.infotravel.TravelActivity"
-            >
+            android:label="@string/title_activity_edit"
+            android:parentActivityName="com.example.infotravel.TravelActivity" >
+
             <!-- Parent activity meta-data to support API level 7+ -->
-       		 <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.infotravel.TravelActivity" />
-            <intent-filter> 
-             	<action android:name="@string/action_nuevo"/> 
-             	<category android:name="android.intent.category.DEFAULT" />  
-             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.infotravel.TravelActivity" />
+
+            <intent-filter>
+                <action android:name="@string/action_nuevo" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        
-        <provider android:name=".data.TravelsProvider"
-            	  android:authorities="com.example.infotravel"></provider>
+
+        <provider
+            android:name="com.example.infotravel.data.TravelsProvider"
+            android:authorities="com.example.infotravel" >
+        </provider>
+
+        <activity
+            android:name="com.example.infotravel.TabNavigationActivity"
+            android:label="@string/title_activity_tab_navigation" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
