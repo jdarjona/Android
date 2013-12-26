@@ -28,5 +28,10 @@
     <string name="tab_lista_viajes">List Travels</string>
     <string name="tab_about">About</string>
     <string name="title_activity_tab_navigation">TabNavigationActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_list_travel_fragement">ListTravelFragement</string>
+    <string name="autor">Autor: Juan de Dios Arjona</string>
+    <string name="nombre_app">App: Tavel</string>
+    <string name="year_app">Año: 2013</string>
 
 </resources>

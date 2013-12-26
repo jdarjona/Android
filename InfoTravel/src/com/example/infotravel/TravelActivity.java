@@ -4,15 +4,9 @@ import java.util.ArrayList;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds;
-import android.provider.ContactsContract.Contacts;
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
-import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.app.LoaderManager;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -30,7 +24,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
 import com.example.infotravel.Travel;
@@ -42,8 +35,6 @@ public class TravelActivity extends  ListActivity implements
 LoaderManager.LoaderCallbacks<Cursor> {
 
 	
-	//ArrayList<Travel> values = new ArrayList<Travel>();
-	//TravelAdapter adapter; antiguo arrayAdapater
 	TravelCursorAdapter mAdapter;
 	
 	static final int NUEVO_VIAJE = 1;
@@ -56,41 +47,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	private static TravelsProvider travelsProvider=new TravelsProvider();
 	
 	
-	final class TravelCursorAdapter extends ResourceCursorAdapter{
-		private LayoutInflater mInflater;
-		
-		
-		public TravelCursorAdapter(Context context, Cursor c){
-			super(context,android.R.layout.simple_list_item_2,c,0);
-			
-			mInflater=LayoutInflater.from(context);
-			
-		}
-		
-		@Override
-		public View newView(Context context,Cursor cursor, ViewGroup parent){
-			View view=mInflater.inflate(android.R.layout.simple_list_item_2, parent,false);
-			
-			ViewHolder holder=new ViewHolder();
-			TextView text1=(TextView) view.findViewById(android.R.id.text1);
-			TextView text2=(TextView) view.findViewById(android.R.id.text2);
-			holder.text1=text1;
-			holder.text2=text2;
-			view.setTag(holder);
-			return view;
-		}
-		
-		@Override
-		public void bindView(View v, Context context, Cursor c){
-			
-			ViewHolder holder=(ViewHolder)v.getTag();
-			String country=c.getString(c.getColumnIndex(TravelsProvider.Travels.COUNTRY));
-			String city=c.getString(c.getColumnIndex(TravelsProvider.Travels.CITY));
-			holder.text1.setText(country);
-			holder.text2.setText(city);
-		}
-	
-	}
 	
 	private class TravelAdapter extends ArrayAdapter<Travel>
 	{
@@ -165,18 +121,12 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	
 	 private void fillData() {
 
-		//    getContentResolver();
-			
-			//Uri uri= Uri.parse(TravelsProvider.CONTENT_URI.toString());
-			
-			//Cursor c=cr.query(uri, PROJECTION, "", null, TravelsProvider.Travels.COUNTRY);
-			
 			getLoaderManager().initLoader(0, null, this);
 			mAdapter= new TravelCursorAdapter(this,null);
 			setListAdapter(mAdapter);
 		    
 		    
-		  }
+}
 	 @Override
 	 public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 	    //String[] projection = { TodoTable.COLUMN_ID, TodoTable.COLUMN_SUMMARY };
@@ -234,7 +184,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 				break;
 			
 			case R.id.menu_edit_travel:
-				//travel=(Travel)mAdapter.getItem(info.position);
+				
 				Cursor c=(Cursor) mAdapter.getItem(info.position);
 				travel=getTravelFromCursor(c);
 				Intent intentedit=new Intent(this,EditActivity.class);
@@ -247,18 +197,15 @@ LoaderManager.LoaderCallbacks<Cursor> {
 				}
 				break;
 			case R.id.menu_delete_travel:
-				//travel=(Travel)mAdapter.getItem(info.position);
+		
 				Cursor c2=(Cursor) mAdapter.getItem(info.position);
 				travel=getTravelFromCursor(c2);
 				Uri uri= Uri.parse(TravelsProvider.CONTENT_URI.toString()+"/"+travel.getIdTravel());
-				//values=this.getContentValues(travel);
+				
 				String[] arg=new String[]{travel.getIdTravel().toString()};
 				String where= TravelsProvider.Travels._ID+"= ? ";
 				getContentResolver().delete(uri, where, arg);
-				//getContentResolver().update(uri, values, where,arg);
-				//this.dbHelper.deleteTravelById( travel.getIdTravel());
 				
-				//mAdapter.remove(travel);
 				break;
 		
 		}
@@ -276,14 +223,9 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			if(travel!=null){
 				if(requestCode==NUEVO_VIAJE)
 				{
-					
-					//this.values.add(travel);
-					//dbHelper.insertTravel(travel);
 					Uri uri= Uri.parse(TravelsProvider.CONTENT_URI.toString());
 					values=this.getContentValues(travel);
 					getContentResolver().insert(uri, values);
-					//travelsProvider.insert(uri, values);
-					//adapter.add(travel);
 					
 				}
 				}if(requestCode==MODIFICAR_VIAJE)
@@ -291,11 +233,10 @@ LoaderManager.LoaderCallbacks<Cursor> {
 					Travel antTravel ;
 					int position=data.getIntExtra("position",-1);
 					if(position!=-1){
-						//antTravel=(Travel)mAdapter.getItem(position);
+						
 						Cursor c=(Cursor) mAdapter.getItem(position);
 						antTravel=getTravelFromCursor(c);
 						if(antTravel!=null){
-							//dbHelper.updateTravel(travel);
 							
 							Uri uri= Uri.parse(TravelsProvider.CONTENT_URI.toString()+"/"+travel.getIdTravel());
 							values=this.getContentValues(travel);
@@ -303,14 +244,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 							String where= TravelsProvider.Travels._ID+"= ? ";
 							getContentResolver().update(uri, values, where,arg);
 							
-						
-							
-							antTravel.setCity(travel.getCity());
-							antTravel.setCountry(travel.getCountry());
-							antTravel.setNote(travel.getNote());
-							antTravel.setYear(travel.getYear());
-							antTravel.setImage(travel.getImage());
-							//adapter.notifyDataSetChanged();
 						}
 					}
 					
@@ -331,8 +264,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		super.onListItemClick(l, v, position, id);
 		
 		Intent intent=new Intent(this,EditActivity.class);
-
-		//Travel travel=(Travel)mAdapter.getItem(position);
 		Cursor c=(Cursor) mAdapter.getItem(position);
 		Travel travel=getTravelFromCursor(c);
 		if (travel!=null)
@@ -369,23 +300,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		
 		return travel;
 	}
-	/* private ArrayList<Travel> getData(){
-	    	ArrayList<Travel> travels = new ArrayList<Travel>();
-
-	    	Travel info = new Travel("Londres", "UK", 2012, "¡Juegos Olimpicos!");
-	    	Travel info2 = new Travel("Paris", "Francia", 2007);
-	    	Travel info3 = new Travel("Gotham City", "EEUU", 2011, "¡¡Batman!!");
-	    	Travel info4 = new Travel("Hamburgo", "Alemania", 2009);
-	    	Travel info5 = new Travel("Pekin", "China", 2011);
-
-	        travels.add(info);
-	        travels.add(info2);
-	        travels.add(info3);
-	        travels.add(info4);
-	        travels.add(info5);
-	        
-	        return travels;
-	    }*/
+	
 
 	
 
