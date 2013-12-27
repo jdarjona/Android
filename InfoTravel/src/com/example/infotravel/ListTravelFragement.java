@@ -175,7 +175,7 @@ TravelCursorAdapter mAdapter;
 					String[] arg=new String[]{travel.getIdTravel().toString()};
 					String where= TravelsProvider.Travels._ID+"= ? ";
 					this.getActivity().getContentResolver().delete(uri, where, arg);
-					
+					getLoaderManager().restartLoader(0, null, this);
 					break;
 			
 			}
@@ -258,7 +258,7 @@ TravelCursorAdapter mAdapter;
 				if(requestCode==NUEVO_VIAJE)
 				{
 					Uri uri= Uri.parse(TravelsProvider.CONTENT_URI.toString());
-					values=this.getContentValues(travel);
+					values=this.getContentValues(travel,true);
 					this.getActivity().getContentResolver().insert(uri, values);
 					
 				}
@@ -273,7 +273,7 @@ TravelCursorAdapter mAdapter;
 						if(antTravel!=null){
 							
 							Uri uri= Uri.parse(TravelsProvider.CONTENT_URI.toString()+"/"+travel.getIdTravel());
-							values=this.getContentValues(travel);
+							values=this.getContentValues(travel,false);
 							String[] arg=new String[]{travel.getIdTravel().toString()};
 							String where= TravelsProvider.Travels._ID+"= ? ";
 							this.getActivity().getContentResolver().update(uri, values, where,arg);
@@ -290,10 +290,11 @@ TravelCursorAdapter mAdapter;
 		//fillData();
 	    
 	}
-	protected ContentValues getContentValues(Travel travel){
+	protected ContentValues getContentValues(Travel travel,boolean insert  ){
 		ContentValues values = new ContentValues();
 		
-		values.put(TravelsProvider.Travels._ID, travel.getIdTravel());
+		if (!insert) 
+			values.put(TravelsProvider.Travels._ID, travel.getIdTravel());
 		values.put(TravelsProvider.Travels.COUNTRY, travel.getCountry());
 		values.put(TravelsProvider.Travels.CITY,travel.getCity());
 		values.put(TravelsProvider.Travels.YEAR,travel.getYear());

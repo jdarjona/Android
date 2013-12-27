@@ -15,7 +15,7 @@ public class TravelsDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String TAG="TravelsDatabaseHelper";
 	
-	private static final int DATABASE_VERSION=2;
+	private static final int DATABASE_VERSION=4;
 	
 	private static final String DATABASE_NAME="travels.db";
 	

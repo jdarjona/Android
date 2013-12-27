@@ -17,7 +17,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="@string/city" >
+        android:hint="@string/city"   
+        android:inputType="textCapSentences">
+        
  		<requestFocus />
        
     </EditText>
@@ -29,7 +31,8 @@
         android:layout_alignLeft="@+id/city"
         android:layout_below="@+id/city"
         android:ems="10"
-        android:hint="@string/country" />
+        android:hint="@string/country" 
+        android:inputType="textCapSentences"/>
 
     <EditText
         android:id="@+id/nota"
